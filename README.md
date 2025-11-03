@@ -26,7 +26,7 @@ cd Bosch-Programming-Challenge
 pip install Pillow numpy
 ```
 ## Usage
-This utility takes a PNG input of the original logo and a **string** input of the HEX or RGB color code (the supported input formats can be found below). There is also an optional input parameter for the output file name.
+This utility takes a PNG input of the original logo and a **string** input of the HEX or RGB color code (the supported input formats can be found below). There is also an optional input parameter for the output file name. The output PNG will be located in the same directory as the input PNG unless a directory is specified using the optional output filname parameter.
 
 ### Basic Commands
 ```bash
