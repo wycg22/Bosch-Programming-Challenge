@@ -42,20 +42,15 @@ class ColorConverter:
             except ValueError:
                 pass
 
-        raise ValueError(f"Invalid color format: {color_input}. Use HEX (#FF0000) or RGB (255,0,0).")
+        raise ValueError(f"Invalid color format: {color_input}. Use HEX (e.g. #FF0000) or RGB (e.g. rgb(255,0,0)).")
 
 
 class NonWhiteRecolorer:
     """Recolor all non-white pixels of an image to a specified color"""
 
-    def __init__(self, preserve_transparency: bool = True, white_threshold: int = 240):
-        """
-        Args:
-            preserve_transparency: Keep alpha channel intact if True.
-            white_threshold: RGB value above which pixels are treated as white (default: 240).
-        """
-        self.preserve_transparency = preserve_transparency
-        self.white_threshold = white_threshold
+    def __init__(self):
+        # Fixed white threshold - pixels with RGB > 250 are treated as white
+        self.white_threshold = 250
 
     def recolor_image(
         self,
@@ -63,7 +58,7 @@ class NonWhiteRecolorer:
         color: Tuple[int, int, int],
         output_path: Union[str, Path] = None
     ) -> str:
-        """Recolor all non-white pixels"""
+        # Recolor non-white pixels (Bosch Logo)
         input_path = Path(input_path)
         if not input_path.exists():
             raise FileNotFoundError(f"File not found: {input_path}")
@@ -86,12 +81,12 @@ class NonWhiteRecolorer:
         whiteness = np.clip(brightness, 0.0, 1.0)
 
         threshold = self.white_threshold / 255.0
-        transition_width = 0.6  # Adjust this value
+        transition_width = 0.6  # Adjust this value to change blending effect
         
         # Transition starts at (threshold - transition_width) and ends at threshold
         transition_start = threshold - transition_width
         
-        # Calculate distance with proper bounds
+        # Calculate distance to determine how faint the color should be
         distance = (whiteness - transition_start) / transition_width
         recolor_strength = 1.0 - np.clip(distance, 0, 1)
         
@@ -99,6 +94,7 @@ class NonWhiteRecolorer:
 
         mask = a > 0
         recolored = img_array.copy()
+        #Blending edge colors for smoother borders
         for c in range(3):
             recolored[..., c][mask] = (
                 r[mask] * (1 - recolor_strength[mask]) +
@@ -109,9 +105,9 @@ class NonWhiteRecolorer:
 
 
     def _generate_output_path(self, input_path: Path, color: Tuple[int, int, int]) -> Path:
-        """Generate output filename"""
-        hex_code = f"{color[0]:02x}{color[1]:02x}{color[2]:02x}"
-        return input_path.parent / f"{input_path.stem}_recolored_{hex_code}.png"
+        # Generate output file name
+        rgb_code = f"{color[0]},{color[1]},{color[2]}"
+        return input_path.parent / f"{input_path.stem}_recolored_rgb({rgb_code}).png"
 
 
 class CommandLineInterface:
@@ -127,7 +123,7 @@ class CommandLineInterface:
 Examples:
   python recolor.py logo.png "#00FF00"
   python recolor.py logo.png "rgb(0, 128, 255)" --output blue_logo.png
-  python recolor.py logo.png "F00" -w 250
+  python recolor.py logo.png "F00"
             """,
             formatter_class=argparse.RawTextHelpFormatter
         )
@@ -135,8 +131,6 @@ Examples:
         parser.add_argument("input_file", help="Input PNG file path")
         parser.add_argument("color", help="New color in HEX (#00FF00) or RGB (0,255,0)")
         parser.add_argument("-o", "--output", help="Optional output file path")
-        parser.add_argument("-w", "--white-threshold", type=int, default=250,
-                            help="Pixels with R,G,B > threshold are considered white (default: 240)")
 
         return parser.parse_args()
 
@@ -144,7 +138,7 @@ Examples:
         args = self.parse_arguments()
         try:
             color = self.converter.parse_color(args.color)
-            recolorer = NonWhiteRecolorer(white_threshold=args.white_threshold)
+            recolorer = NonWhiteRecolorer()
             out_path = recolorer.recolor_image(args.input_file, color, args.output)
             print(f"✅ Recoloring complete! Saved to: {out_path}")
         except Exception as e:
