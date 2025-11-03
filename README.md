@@ -15,7 +15,7 @@ The blending system uses linear interpolation between the original pixel colors 
 ![Figure 1](Comparison.png)
 
 ## Installation
-In the desired directory, clone the repository and install the required dependencies if they are not already present
+In the desired directory, clone the repository and install the required dependencies if they are not already present.
 
 ```bash
 # Clone the repository
@@ -26,7 +26,7 @@ cd Bosch-Programming-Challenge
 pip install Pillow numpy
 ```
 ## Usage
-This utility takes a PNG input of the original logo and a **string** input of the HEX or RGB color code (the supported input formats can be found below). There is also an optional input parameter for the output file name. The output PNG will be located in the same directory as the input PNG unless a directory is specified using the optional output filname parameter.
+This utility takes a PNG input of the original logo and a **string** input of the HEX or RGB color code (the supported input formats can be found below). There is also an optional input parameter for the output file name. The output PNG will be located in the same directory as the input PNG unless a directory is specified using the optional output filename parameter.
 
 ### Basic Commands
 ```bash
