@@ -4,7 +4,7 @@
 The goal of this programming task is to create a command-line utility that transforms the Bosch logo by applying user-specified colors while maintaining image quality. Users can input any HEX or RGB color code to generate logo variants for campaign experimentation and brand customization.
 ## Implementation
 
-My initial implementation involved modifying all non-white pixels into the user-specified color. This caused the output logo to appear more pixelated than the original.
+Since the goal was to recolor the logo, my initial implementation involved modifying all non-white pixels into the user-specified color. This initial method worked, but caused the output logo to appear a bit more pixelated than the original.
 
 In the original logo, lighter colored pixels surrounded logo to smoothen out the borders and make the logo sharper. But by changing the lighter-colored pixels into the desired color, the resulting output was a rough-edged logo that looks more pixelated than the original.
 
