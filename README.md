@@ -1,14 +1,14 @@
 # Bosch-Programming-Challenge
 
 ## Objective
-The goal of this programming task is to create a command-line utility that transforms the Bosch logo by applying user-specified colors while maintaining image quality. Users can input any HEX or RGB color to generate logo variants for campaign experimentation and brand customization.
+The goal of this programming task is to create a command-line utility that transforms the Bosch logo by applying user-specified colors while maintaining image quality. Users can input any HEX or RGB color code to generate logo variants for campaign experimentation and brand customization.
 ## Implementation
 
-My initial implementation involved modifying all non-white pixels into the user-specified color. This caused the output logo to appear more pixelated than the original.
+Since the goal was to recolor the logo, my initial implementation involved modifying all non-white pixels into the user-specified color. This initial method worked, but caused the output logo to appear a bit more pixelated than the original.
 
-In the original logo, lighter colored pixels surrounded logo to smoothen out the borders and make the logo more sharp. But by changing the lighter-colored pixels into the desired color, the resulting output was a rough-edged logo that looks more pixelated than the original.
+In the original logo, lighter colored pixels surrounded logo to smoothen out the borders and make the logo sharper. But by changing the lighter-colored pixels into the desired color, the resulting output was a rough-edged logo that looks more pixelated than the original.
 
-To prevent this from happening, I introduced a `white_threshold` and blending functionality. Pixels with all r, g, and b channels above this threshold are ommited form the color change. Pixels below this threshold receive gradual recoloring based on their brightness - darker pixels get full color application while lighter pixels get partial blending. This preserves the anti-aliased edges by maintaining the smooth brightness transitions that create the appearance of smooth borders, resulting in a professional-looking recolored logo that maintains the original image quality.
+To prevent this from happening, I introduced a `white_threshold` and blending functionality. Pixels with r, g, and b values above this threshold are ommitted from the color change. Pixels below this threshold receive gradual recoloring based on their brightness - darker pixels get full color application while lighter pixels get partial blending. This preserves the anti-aliased edges by maintaining the smooth brightness transitions that create the appearance of smooth borders, resulting in a professional-looking recolored logo that maintains the original image quality.
 
 The blending system uses linear interpolation between the original pixel colors and the target color, creating smooth gradients that prevent harsh edges and maintain the logo's visual integrity across all color transformations.
 
@@ -26,7 +26,7 @@ cd Bosch-Programming-Challenge
 pip install Pillow numpy
 ```
 ## Usage
-This utility takes an PNG input of the original logo and a **string** input of the HEX or RGB color code (the supported input formats can be found below). There is also an optional input parameter for the output file name.
+This utility takes a PNG input of the original logo and a **string** input of the HEX or RGB color code (the supported input formats can be found below). There is also an optional input parameter for the output file name.
 
 ### Basic Commands
 ```bash
