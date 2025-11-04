@@ -7,8 +7,8 @@ The goal of this programming task is to create a command-line utility that trans
 Since the goal was to recolor the logo, my initial implementation involved modifying all non-white pixels into the user-specified color. This initial method worked, but caused the output logo to appear a bit more pixelated than the original.
 
 In the original logo, lighter colored pixels surrounded logo to smoothen out the borders and make the logo sharper. But by changing the lighter-colored pixels into the desired color, the resulting output was a rough-edged logo that looks more pixelated than the original.
-
-The solution - implement anti-aliasing, a techniques that's commonly used to smooth jagged edges in digital images by using transitional pixels along the boundary to blend the foreground color with the background, creating the look of smoother curves and diagonals.
+### 💡 The Solution
+Implement anti-aliasing, a technique that's commonly used to smooth jagged edges in digital images by using transitional pixels along the boundary to blend the foreground color with the background, creating the look of smoother curves and diagonals.
 
 To implement this, I introduced a `white_threshold` and blending functionality. Pixels with r, g, and b values above this threshold are ommitted from the color change. Pixels below this threshold receive gradual recoloring based on their brightness - darker pixels get full color application while lighter pixels get partial blending. This preserves the anti-aliased edges by maintaining the smooth brightness transitions that create the appearance of smooth borders, resulting in a professional-looking recolored logo that maintains the original image quality.
 
