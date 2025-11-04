@@ -8,7 +8,9 @@ Since the goal was to recolor the logo, my initial implementation involved modif
 
 In the original logo, lighter colored pixels surrounded logo to smoothen out the borders and make the logo sharper. But by changing the lighter-colored pixels into the desired color, the resulting output was a rough-edged logo that looks more pixelated than the original.
 
-To prevent this from happening, I introduced a `white_threshold` and blending functionality. Pixels with r, g, and b values above this threshold are ommitted from the color change. Pixels below this threshold receive gradual recoloring based on their brightness - darker pixels get full color application while lighter pixels get partial blending. This preserves the anti-aliased edges by maintaining the smooth brightness transitions that create the appearance of smooth borders, resulting in a professional-looking recolored logo that maintains the original image quality.
+The solution - implement anti-aliasing, a techniques that's commonly used to smooth jagged edges in digital images by using transitional pixels along the boundary to blend the foreground color with the background, creating the look of smoother curves and diagonals.
+
+To implement this, I introduced a `white_threshold` and blending functionality. Pixels with r, g, and b values above this threshold are ommitted from the color change. Pixels below this threshold receive gradual recoloring based on their brightness - darker pixels get full color application while lighter pixels get partial blending. This preserves the anti-aliased edges by maintaining the smooth brightness transitions that create the appearance of smooth borders, resulting in a professional-looking recolored logo that maintains the original image quality.
 
 The blending system uses linear interpolation between the original pixel colors and the target color, creating smooth gradients that prevent harsh edges and maintain the logo's visual integrity across all color transformations.
 
@@ -55,7 +57,7 @@ Here is an example of how it can be used:
 ```bash
 # Default
 python LogoRecolor.py  Bosch-logo.png "0,0,255"         # Output PNG is named Bosch-logo_recolored_rgb(0,0,255).png
-python LogoRecolor.py  Bosch\Bosch-logo.png "0,0,255"   # Output PNG will be saved to the same directory as the input
+python LogoRecolor.py  .\Bosch\Bosch-logo.png "0,0,255"   # Output PNG will be saved to the same directory as the input
 
 # With output parameter
 python LogoRecolor.py  Bosch-logo.png "0,0,255" -o blue.png             # Output PNG is named blue.png
